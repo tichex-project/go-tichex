@@ -2,47 +2,70 @@
 
 This repository contains the source code of the Tichex Blockchain
 
-# Building the application
-If you want to build the `go-tichex` application in this repo to see the functionalities, **Go 1.12.1+** is required .
+**WARNING**: The repository is in development.
 
-Add some parameters to environment is necessary if you have never used the `go mod` before.
+**Note**: Requires [Go 1.12.4+](https://golang.org/dl/)
 
-```bash
-mkdir -p $HOME/go/bin
-echo "export GOPATH=$HOME/go" >> ~/.bash_profile
-echo "export GOBIN=\$GOPATH/bin" >> ~/.bash_profile
-echo "export PATH=\$PATH:\$GOBIN" >> ~/.bash_profile
-echo "export GO111MODULE=on" >> ~/.bash_profile
-source ~/.bash_profile
-```
+# Install Tichex Blockchain
 
-Now, you can install and run the application.
+There are several ways you can install Tichex Blockchain Testnet node on your machine.
 
-```bash
-# Install the app into your $GOBIN
-make install
+## Using Binary
+1. **Download Tichex**
+Get [latest binary](https://github.com/tichex-project/go-tichex/releases) build suitable for your architecture and unpack it to desired folder.
 
-# Now you should be able to run the following commands:
-tichexd help
-tichexcli help
-```
+2. **Run Tichex**
+	```bash
+	./tichexd start
+	```
+## From Source
+1. **Install Go** by following the [official docs](https://golang.org/doc/install). Remember to set your `$GOPATH`, `$GOBIN`, and `$PATH` environment variables, for example:
+	```bash
+	mkdir -p $HOME/go/bin
+	echo  "export GOPATH=$HOME/go" >> ~/.bash_profile
+	echo  "export GOBIN=\$GOPATH/bin" >> ~/.bash_profile
+	echo  "export PATH=\$PATH:\$GOBIN" >> ~/.bash_profile
+	echo  "export GO111MODULE=on" >> ~/.bash_profile
+	source ~/.bash_profile
+	```
+2. **Clone Tichex source code to your machine**
+	```bash
+	mkdir -p $GOPATH/src/github.com/tichex-project
+	cd $GOPATH/src/github.com/tichex-project
+	git clone https://github.com/tichex-project/go-tichex.git
+	cd go-tickex
+	```
+  3. **Compile**
+		```bash
+		# Install the app into your $GOBIN
+		make install
+		# Now you should be able to run the following commands:
+		tichexd help
+		tichexcli help
+		```
+		The latest `go-tichex version` is now installed.
+3. **Run Minter**
+	```bash
+	tichexd start
+	```
+  
 
 ## Running the live network and using the commands
 
 To initialize configuration and a `genesis.json` file for your application and an account for the transactions, start by running:
 
-> _*NOTE*_: In the below commands addresses are are pulled using terminal utilities. You can also just input the raw strings saved from creating keys, shown below. The commands require [`jq`](https://stedolan.github.io/jq/download/) to be installed on your machine.
+>  _*NOTE*_: In the below commands addresses are are pulled using terminal utilities. You can also just input the raw strings saved from creating keys, shown below. The commands require [`jq`](https://stedolan.github.io/jq/download/) to be installed on your machine.
 
-> _*NOTE*_: If you have run the tutorial before, you can start from scratch with a `tichexd unsafe-reset-all` or by deleting both of the home folders `rm -rf ~/.tichex*`
+>  _*NOTE*_: If you have run the tutorial before, you can start from scratch with a `tichexd unsafe-reset-all` or by deleting both of the home folders `rm -rf ~/.tichex*`
 
-> _*NOTE*_: If you have the Cosmos app for ledger and you want to use it, when you create the key with `tichexcli keys add jack` just add `--ledger` at the end. That's all you need. When you sign, `jack` will be recognized as a Ledger key and will require a device. 
+>  _*NOTE*_: If you have the Cosmos app for ledger and you want to use it, when you create the key with `tichexcli keys add jack` just add `--ledger` at the end. That's all you need. When you sign, `jack` will be recognized as a Ledger key and will require a device.
 
 ```bash
 # Initialize configuration files and genesis file
 tichexd init --chain-id tichex-test-network-1
 
-# Copy the `Address` output here and save it for later use 
-# [optional] add "--ledger" at the end to use a Ledger Nano S 
+# Copy the `Address` output here and save it for later use
+# [optional] add "--ledger" at the end to use a Ledger Nano S
 tichexcli keys add jack
 
 # Copy the `Address` output here and save it for later use
@@ -65,15 +88,15 @@ Open another terminal to run commands against the network you have just created:
 
 ```bash
 # First check the accounts to ensure they have funds
-tichexcli query account $(tichexcli keys show jack -a) 
-tichexcli query account $(tichexcli keys show alice -a) 
+tichexcli query account $(tichexcli keys show jack -a)
+tichexcli query account $(tichexcli keys show alice -a)
 ```
 
 # Transactions
 You can now start the first transaction
 
 ```bash
-tichexcli tx send --from=$(tichexcli keys show jack -a) $(tichexcli keys show alice -a) 10theur
+tichexcli tx send --from=$(tichexcli keys show jack -a)  $(tichexcli keys show alice -a) 10theur
 ```
 
 # Query

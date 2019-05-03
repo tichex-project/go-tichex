@@ -1,4 +1,4 @@
-module github.com/angelorc/go-tichex
+module github.com/tichex-project/go-tichex
 
 go 1.12
 
