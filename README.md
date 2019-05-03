@@ -67,23 +67,6 @@ Open another terminal to run commands against the network you have just created:
 # First check the accounts to ensure they have funds
 tichexcli query account $(tichexcli keys show jack -a) 
 tichexcli query account $(tichexcli keys show alice -a) 
-
-# Buy your first name using your coins from the genesis file
-tichexcli tx nameservice buy-name jack.id 5nametoken --from jack 
-
-# Set the value for the name you just bought
-tichexcli tx nameservice set-name jack.id 8.8.8.8 --from jack 
-
-# Try out a resolve query against the name you registered
-tichexcli query nameservice resolve jack.id
-# > 8.8.8.8
-
-# Try out a whois query against the name you just registered
-tichexcli query nameservice whois jack.id
-# > {"value":"8.8.8.8","owner":"cosmos1l7k5tdt2qam0zecxrx78yuw447ga54dsmtpk2s","price":[{"denom":"nametoken","amount":"5"}]}
-
-# Alice buys name from jack
-tichexcli tx nameservice buy-name jack.id 10nametoken --from alice 
 ```
 
 # Transactions
