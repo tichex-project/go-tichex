@@ -39,7 +39,7 @@ To initialize configuration and a `genesis.json` file for your application and a
 
 ```bash
 # Initialize configuration files and genesis file
-tichexd init --chain-id namechain
+tichexd init --chain-id tichex-test-network-1
 
 # Copy the `Address` output here and save it for later use 
 # [optional] add "--ledger" at the end to use a Ledger Nano S 
@@ -49,11 +49,11 @@ tichexcli keys add jack
 tichexcli keys add alice
 
 # Add both accounts, with coins to the genesis file
-tichexd add-genesis-account $(tichexcli keys show jack -a) 1000teur,1000tkx
-tichexd add-genesis-account $(tichexcli keys show alice -a) 1000teur,1000tkx
+tichexd add-genesis-account $(tichexcli keys show jack -a) 1000theur,1000thx
+tichexd add-genesis-account $(tichexcli keys show alice -a) 1000theur,1000thx
 
 # Configure your CLI to eliminate need for chain-id flag
-tichexcli config chain-id namechain
+tichexcli config chain-id tichex-test-network-1
 tichexcli config output json
 tichexcli config indent true
 tichexcli config trust-node true
@@ -90,7 +90,7 @@ tichexcli tx nameservice buy-name jack.id 10nametoken --from alice
 You can now start the first transaction
 
 ```bash
-tichexcli tx send --from=$(tichexcli keys show jack -a) $(tichexcli keys show alice -a) 10teur
+tichexcli tx send --from=$(tichexcli keys show jack -a) $(tichexcli keys show alice -a) 10theur
 ```
 
 # Query
