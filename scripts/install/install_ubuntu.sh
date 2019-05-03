@@ -26,6 +26,7 @@ mkdir go
 echo "export GOPATH=$HOME/go" >> ~/.profile
 echo "export PATH=\$PATH:\$GOPATH/bin" >> ~/.profile
 echo "export GO111MODULE=on" >> ~/.profile
+echo "export LEDGER_ENABLED=false" >> ~/.profile
 source ~/.profile
 
 # get the code and move into repo
@@ -33,6 +34,4 @@ cd go-tichex
 
 # build & install master
 git checkout $BRANCH
-LEDGER_ENABLED=false make install
-
-source ~/.profile
+make install
