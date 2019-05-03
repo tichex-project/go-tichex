@@ -50,13 +50,24 @@ Get [latest binary](https://github.com/tichex-project/go-tichex/releases) build 
 	```
 
 ## Install on Digital Ocean
-	```bash
+1. **Clone repository**
+    ```bash
 	git clone https://github.com/tichex-project/go-tichex.git
     chmod +x go-tichex/scripts/install/install_ubuntu.sh
-    go-tichex/scripts/install/install_ubuntu.sh
 	```
+2. **Run the script**
+    ```bash
+    go-tichex/scripts/install/install_ubuntu.sh
+    source ~/.profile
+	```
+3. Now you should be able to run the following commands:
+	```bash
+	tichexd help
+	tichexcli help
+	```
+    The latest `go-tichex version` is now installed.
 
-## Running the live network and using the commands
+## Running the test network and using the commands
 
 To initialize configuration and a `genesis.json` file for your application and an account for the transactions, start by running:
 
