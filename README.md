@@ -48,7 +48,13 @@ Get [latest binary](https://github.com/tichex-project/go-tichex/releases) build 
 	```bash
 	tichexd start
 	```
-  
+
+## Install on Digital Ocean
+	```bash
+	git clone https://github.com/tichex-project/go-tichex.git
+    chmod +x go-tichex/scripts/install/install_ubuntu.sh
+    go-tichex/scripts/install/install_ubuntu.sh
+	```
 
 ## Running the live network and using the commands
 
