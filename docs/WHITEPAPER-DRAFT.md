@@ -46,8 +46,8 @@ Liquidity tokens, having immediate liquidity, can be exchanged immediately witho
 ## ICO? No, thanks!
 Tichex has no intention to carry out any ICO. The engine will be activated from the first block.
 
-In the genesis block, *THX* will have an initial supply of 0 and will be issued as the first reward block. TKEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
-Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in TKEUR determining the market value. THKEUR / THX will be the first pair available.
+In the genesis block, *THX* will have an initial supply of 0 and will be issued as the first reward block. THKEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
+Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in THKEUR determining the market value. THKEUR / THX will be the first pair available.
 
 The technologies used are the same as those of Binance, BitSong, MINTEr, Cosmos, Iris Network. All advanced and interconnected blockchains thanks to Cosmos.
 
