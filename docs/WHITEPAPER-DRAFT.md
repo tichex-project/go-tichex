@@ -1,53 +1,54 @@
 # Tichex Blockchain
 
-Tichex é una blockchain DPoS basata su Tendermint e Cosmos SDK.
+Tichex is a DPoS blockchain based on Tendermint and Cosmos SDK.
 
-Tichex nasce per risolvere il problema delle stable coin centralizzate. Inoltre risolve il rpoblema della liquidità, sia Crypto/crypto Che Crypto/fiat. Sulla blockchain di Tichex sarà possibile creare 3 tipologie differenti di token.
+Tichex was created to solve the problem of centralized stable coins. It also solves the problem of liquidity, be they Crypto/crypto or Crypto/fiat. On the Tichex blockchain it will be possible to create 3 different types of tokens.
 
 ## Blockchain
-La blockchain si basa sull'algoritmo di consenso Bizantine Fault Tolerance (consenso 2/3 della rete), con algoritmo di Stacking DPoS.
+The blockchain is based on the Bizantine Fault Tolerance consensus algorithm (consent 2/3 of the network), with DPoS Stacking algorithm.
 
-## Tipologie di Token
+## Types of Token
 * Token pegged to Fiat
-* Liquidity Token pegged to TKX (our native coin)
+* Liquidity Token pegged to THX (our native coin)
 * Standard Token (no pegged)
 
-## Attori partecipanti
-Per far si che la blockchain funzioni, devono esserci 4 tipologie di utenti.
+## Main Actors
+To make the blockchain work, there must be 4 types of users.
 
 * Fiat Providers
 * Validators
-* Aziende
-* Utenti
+* Companies
+* Users
 
-I *Fiat Providers*, sono istituti bancari autorizzati e regolamentati. Il loro compito è di fare da bridge tra la nostra blockchain ed il loro circuito bancario. Loro sono gli unici autorizzati ad emettere (mint) parte di un Token Fiat. Dico parte, perché nella blockchain di Tickex i token pegged to fiat iniziano per T, esempio TEUR, TUSD, TGBP, TKRW.
-Un Fiat Provider può quindi eseguire un mint dei seguenti token. Facciamo un esempio...
+The *Fiat Providers*, are authorized and regulated banking institutions. Their job is to act as a bridge between our blockchain and their banking circuit. They are the only ones authorized to issue (mint) part of a Fiat Token. Let's say part, because in the Tickex blockchain the pegged to fiat tokens start with T, for example THEUR, THUSD, THGBP, THKRW.
+A Fiat Provider can then make a mint of the following tokens. Let's take an example ...
 
-*EMoney* essendo un istituto autorizzato, fa richiesta a Tichex per essere un Fiat Provider. Per fare richiesta Emoney aprirà un proposal sulla blockchain di Tichex, successivamente la proposta avrà un periodo di voting di 30 giorni (o più). I Validator e qualsiasi altro utente abbia messo in Stacking TKX ha diritto ad esprimere un parere e quindi votare la proposta. Il voto dell'utente avrà il valore uguale al suo valore nella rete (es se ci sono 100 milioni di TKX in Stacking e l'utente ne ha messo 1000, il suo voto avrà un voting power del 0.0001%)
-Durante il periodo di voting, chiunque può eseguire e/o richiedere documentazionr attestante la solidità del Fiat Provider. Una volta terminato il periodo di voting, il Fiat Provider sarà autorizzato ad emettere Fiat Token sulla nostra blockchain. Un altro esempio è SisalPay che decide di emettere un proprio token legato all'Euro e lo può fare pegged a TKEUR semplicemente selezionando una casella. In quel caso qualsiasi transazione sisal pay girerebbe sulla Blockchain di Tickex.
-Al fine di evitare truffe o provider non solidi, il Fiat Provider, oltre a passare il processo di voting, dovrà anche depositare il controvalore di 1.000.000 € in TKX presso gli altri Fiat Providers. In questi giorni abbiamo assistito allo scandalo Tether, Dover risulterebbe un ammanco di 850 milioni di dollari dalle casse di bitfinex. Episodi del genere fanno perdere credibilità ad un settore con un grosso potenziale di crescita. Con questo sistema, il rischio viene ridotto ai minimi termini in quanto non sarà più solo un ente ad emettere TEUR, ma sarà un insieme di enti ad emettere un'unico token legato all'Euro. Stesso identico discorso vale per ogni altro Token Fiat.
-Ricapitolando, i Fiat Provider saranno i Miner di TEUR e degli altri token stabili e devono rispettare requisiti legislativi e di community.
+*EMoney* being an authorized institution, applies to be a Tichex Fiat Provider. To apply, Emoney will open a proposal on the Tichex blockchain, after which the proposal will have a voting period of 30 days (or more). Validators and any other users who have placed THX in Stacking have the right to express an opinion and then vote on the proposal. The user's rating will have the weight relative to its value in the network (eg if there are 100 million THX in Stacking and the user John put in stacking 1000, his vote will have a voting power of 0.0001%)
+During the voting period, anyone can execute and / or request documentation certifying the solidity of the Fiat Provider. Once the voting period is over, the Fiat Provider will be authorized to issue the Fiat Token on our blockchain. Another example is SisalPay which decides to issue its own token linked to the Euro and can pegged it to THEUR simply by selecting a box. In that case any sisal pay transaction would run on Tickex's Blockchain.
+In order to avoid frauds or non-solid providers, the Fiat Provider, in addition to passing the voting process, will also have to deposit the equivalent of € 1,000,000 in THX to the other Fiat Providers. These days we have witnessed the Tether scandal, where it would seem that there was a shortfall of 850 million dollars from the bitfinex cash desks. Such episodes make a sector with a huge growth potential lose credibility. With this system, the risk is reduced to the minimum terms as it will no longer be just an entity to issue THEUR, but a group of institutions will issue a single token linked to the Euro. The same is valid for any other Fiat Token.
 
-## I Validators
-Loro hanno un ruolo importantissimo, sono i responsabili della nostra blockchain. Al fine di essere più decentralizzato possibile, Tichex in una fase iniziale avrà 100 validators, successivamente il numero sarà esteso a 500. I Validator Hanno il ruolo di proporre i blocchi con le transazioni, vengono scelti in base al loro voting power (ovvero il numero di TKX in Stacking / il totale dei TKX in Stacking). Il tempo di creazione di un blocco sarà di circa 5 secondi, ad ogni nuovo blocco creato verranno emessi [X] TKX, questo reward verrà inviato ogni 12 blocchi (circa un minuto) e sarà suddiviso a tutti i Validator in base al loro voting power.
-I Validator inoltre guadagneranno anche dalla fee delle transazioni (anche esse decise tramite proposal). Ogni 250,000 blocchi (circa 2 settimane) verrà diminuito il numero di TKX emessi, i blocchi termineranno di emettere TKX non appena sarà raggiunto il supply di 10.000.000.000 TKX (da decidere). Le fee se pur microscopiche, saranno applicate per i trasferimenti, creazione di token, scelta del ticker....
+In summary, the Fiat Providers will be the THEUR Miners and other stable tokens and must comply with legislative and community requirements.
 
-## Aziende
-Come aziende s'intende il motore del business, ovvero qualsiasi cosa che effettui transazioni. Immaginiamo un e-commerce, sulla nostra blockchain può emettere un token e deciderlo se farlo Fiat pegged, liquidity pegged (ovvero pegged ad altri token liquidty all'interno di Tichex, incluso quello nativo). Oppure un token standard ovvero no pegged. Successivamente tramite apposito plugin, può accettare pagamenti nel suo sito tramite il suo token oppure tramite altri token interni a Tichex ed avere liquidità Crypto o Fiat in maniera immediata. 
-In molti casi anche i Fiat Provider possono iniziare a proporre questo nuovi servizi ai loro clienti business.
+## The Validators
+They have a very important role, they are responsible for our blockchain. In order to be as decentralized as possible, in an initial phase Tichex will have 100 validators, then the number will be extended to 500. The Validators have the role of proposing the blocks with the transactions, they are chosen based on their voting power (ie the number of THX in Stacking / the total of THX in Stacking). The block creation time will be about 5 seconds, with each new block created [X] THX, this reward will be sent every 12 blocks (about one minute) and will be divided to all the Validators, based on their voting power.
+The Validators will also gain from the transaction fee (also decided by proposal). Every 250,000 blocks (about 2 weeks) the number of THX issued will be decreased, the blocks will finish issuing THX as soon as the supply of 10,000,000,000 THX (to be decided) will be reached. The fees, even if microscopic, will be applied for transfers, token creation, choice of ticker ...
 
-Gli utenti invece, possono effettuare transazioni, creare token, scambiarlo sul nostro Exchange nativo, fare IEO in maniera decentralizzato e anche loro avere liquidità immediata.
+## Companies
+"Companies" means the business engine, or anything that transacts. Imagine an e-commerce, on our blockchain can issue a token and decide whether to do it Fiat pegged, liquidity pegged (ie pegged to other liquidty tokens within Tichex, including the native one) or a standard token ie no pegged. Subsequently, through a special plugin, it can accept payments on its site through its token or through other internal Tichex tokens and have immediate Crypto or Fiat liquidity.
+In many cases, even Fiat Providers can start offering this new services to their business customers.
 
-Un altro esempio è, un altro istituto che entra a fare parte del circuito ed estende il servizio ai propri clienti, quindi l'utente genererà token dal suo c/c.
+Users, on the other hand, can make transactions, create tokens, exchange them on our native Exchange, do IEO in a decentralized manner and also have immediate liquidity.
 
-I token Liquidity, avendo liquidità immediata, possono essere scambiati immediatamente senza necessità di dover immettere l'ordine in Exchange.
+Another example is another institution that joins the circuit and extends the service to its customers, so the user will generate tokens from his account.
 
-## ICO? No, grazie!
-Tichex non ha intenzione di effettuare alcuna ICO. Il motore verrà azionato già dal primo blocco.
+Liquidity tokens, having immediate liquidity, can be exchanged immediately without having to enter the order in Exchange.
 
-Nel blocco genesi, *TKX* avrà un supply iniziale di 0 e verrà emessa già come primo blocco reward. TKEUR invece, sarà emessa da Emoney e sarà acquistata dai Validator per lo staking iniziale. (Si potrebbe anche proporre un'asta iniziale per i primi 16, in questo caso a 100 Validator ci arriveremo nel tempo).
-Una volta nato il blocco 12, i Validator hanno già i primi reward, e possono quindi andarli a vendere in TKEUR determinandone il valore di mercato. TKEUR/TKX sarà la prima coppia disponibile.
+## ICO? No, thanks!
+Tichex has no intention to carry out any ICO. The engine will be activated from the first block.
 
-Le tecnologie utilizzate sono le stesse di Binance, BitSong, MINTEr, Cosmos, Iris Network. Tutte blockchain avanzate ed interconnesse tra di loro grazie a Cosmos.
+In the genesis block, *THX* will have an initial supply of 0 and will be issued as the first reward block. THEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
+Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in THEUR determining the market value. THEUR/THX will be the first pair available.
 
-Il progetto attirerebbe immediatamente numerosissimi investitori (oltre che Validator, ultimamente fanno a pugni per tutto quello che è Cosmos) e butterebbe giù la prima vera blockchain decentralizzata con valute stabili, Fiat Provider e token liquidi.
+The technologies used are the same as those of Binance, BitSong, Minter, Cosmos, Iris Network. All advanced and interconnected blockchains thanks to Cosmos.
+
+The project would immediately attract a large number of investors (as well as Validator, ultimately fighting for all that is Cosmos) and throwing down the first real decentralized blockchain with stable currencies, Fiat Providers and liquid tokens.
