@@ -35,3 +35,5 @@ cd go-tichex
 # build & install master
 git checkout $BRANCH
 make install
+
+source ~/.profile
