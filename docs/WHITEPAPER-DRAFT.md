@@ -20,10 +20,10 @@ To make the blockchain work, there must be 4 types of users.
 * Companies
 * Users
 
-The * Fiat Providers *, are authorized and regulated banking institutions. Their job is to act as a bridge between our blockchain and their banking circuit. They are the only ones authorized to issue (mint) part of a Fiat Token. Let's say part, because in the Tickex blockchain the pegged to fiat tokens start with T, for example THEUR, THUSD, THGBP, THKRW.
+The *Fiat Providers*, are authorized and regulated banking institutions. Their job is to act as a bridge between our blockchain and their banking circuit. They are the only ones authorized to issue (mint) part of a Fiat Token. Let's say part, because in the Tickex blockchain the pegged to fiat tokens start with T, for example THEUR, THUSD, THGBP, THKRW.
 A Fiat Provider can then make a mint of the following tokens. Let's take an example ...
 
-* EMoney * being an authorized institution, applies to be a Tichex Fiat Provider. To apply, Emoney will open a proposal on the Tichex blockchain, after which the proposal will have a voting period of 30 days (or more). Validators and any other users who have placed TKX in Stacking have the right to express an opinion and then vote on the proposal. The user's rating will have the weight relative to its value in the network (eg if there are 100 million TKX in Stacking and the user John put in stacking 1000, his vote will have a voting power of 0.0001%)
+*EMoney* being an authorized institution, applies to be a Tichex Fiat Provider. To apply, Emoney will open a proposal on the Tichex blockchain, after which the proposal will have a voting period of 30 days (or more). Validators and any other users who have placed TKX in Stacking have the right to express an opinion and then vote on the proposal. The user's rating will have the weight relative to its value in the network (eg if there are 100 million TKX in Stacking and the user John put in stacking 1000, his vote will have a voting power of 0.0001%)
 During the voting period, anyone can execute and / or request documentation certifying the solidity of the Fiat Provider. Once the voting period is over, the Fiat Provider will be authorized to issue the Fiat Token on our blockchain. Another example is SisalPay which decides to issue its own token linked to the Euro and can pegged it to TKEUR simply by selecting a box. In that case any sisal pay transaction would run on Tickex's Blockchain.
 In order to avoid frauds or non-solid providers, the Fiat Provider, in addition to passing the voting process, will also have to deposit the equivalent of € 1,000,000 in TKX to the other Fiat Providers. These days we have witnessed the Tether scandal, where it would seem that there was a shortfall of 850 million dollars from the bitfinex cash desks. Such episodes make a sector with a huge growth potential lose credibility. With this system, the risk is reduced to the minimum terms as it will no longer be just an entity to issue TEURs, but a group of institutions will issue a single token linked to the Euro. The same is valid for any other Fiat Token.
 
@@ -46,8 +46,8 @@ Liquidity tokens, having immediate liquidity, can be exchanged immediately witho
 ## ICO? No, thanks!
 Tichex has no intention to carry out any ICO. The engine will be activated from the first block.
 
-In the genesis block, * TKX * will have an initial supply of 0 and will be issued as the first reward block. TKEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
-Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in TKEUR determining the market value. TKEUR / TKX will be the first pair available.
+In the genesis block, *THX* will have an initial supply of 0 and will be issued as the first reward block. TKEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
+Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in TKEUR determining the market value. THKEUR / THX will be the first pair available.
 
 The technologies used are the same as those of Binance, BitSong, MINTEr, Cosmos, Iris Network. All advanced and interconnected blockchains thanks to Cosmos.
 
