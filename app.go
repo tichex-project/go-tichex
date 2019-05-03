@@ -21,10 +21,10 @@ import (
 )
 
 const (
-	appName = "nameservice"
+	appName = "TichexBlockchain"
 )
 
-type nameServiceApp struct {
+type TichexBlockchain struct {
 	*bam.BaseApp
 	cdc *codec.Codec
 
@@ -42,8 +42,8 @@ type nameServiceApp struct {
 	nsKeeper            nameservice.Keeper
 }
 
-// NewNameServiceApp is a constructor function for nameServiceApp
-func NewNameServiceApp(logger log.Logger, db dbm.DB) *nameServiceApp {
+// NewTichexBlockchain is a constructor function for TichexBlockchain
+func NewTichexBlockchain(logger log.Logger, db dbm.DB) *TichexBlockchain {
 
 	// First define the top level codec that will be shared by the different modules
 	cdc := MakeCodec()
@@ -52,7 +52,7 @@ func NewNameServiceApp(logger log.Logger, db dbm.DB) *nameServiceApp {
 	bApp := bam.NewBaseApp(appName, logger, db, auth.DefaultTxDecoder(cdc))
 
 	// Here you initialize your application with the store keys it requires
-	var app = &nameServiceApp{
+	var app = &TichexBlockchain{
 		BaseApp: bApp,
 		cdc:     cdc,
 
@@ -134,7 +134,7 @@ type GenesisState struct {
 	Accounts []*auth.BaseAccount `json:"accounts"`
 }
 
-func (app *nameServiceApp) initChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
+func (app *TichexBlockchain) initChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
 	stateJSON := req.AppStateBytes
 
 	genesisState := new(GenesisState)
@@ -155,7 +155,7 @@ func (app *nameServiceApp) initChainer(ctx sdk.Context, req abci.RequestInitChai
 }
 
 // ExportAppStateAndValidators does the things
-func (app *nameServiceApp) ExportAppStateAndValidators() (appState json.RawMessage, validators []tmtypes.GenesisValidator, err error) {
+func (app *TichexBlockchain) ExportAppStateAndValidators() (appState json.RawMessage, validators []tmtypes.GenesisValidator, err error) {
 	ctx := app.NewContext(true, abci.Header{})
 	accounts := []*auth.BaseAccount{}
 
