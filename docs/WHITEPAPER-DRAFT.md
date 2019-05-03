@@ -12,7 +12,7 @@ The blockchain is based on the Bizantine Fault Tolerance consensus algorithm (co
 * Liquidity Token pegged to TKX (our native coin)
 * Standard Token (no pegged)
 
-## Attori partecipanti
+## Main Actors
 To make the blockchain work, there must be 4 types of users.
 
 * Fiat Providers
@@ -20,7 +20,7 @@ To make the blockchain work, there must be 4 types of users.
 * Companies
 * Users
 
-The * Fiat Providers *, are authorized and regulated banking institutions. Their job is to act as a bridge between our blockchain and their banking circuit. They are the only ones authorized to issue (mint) part of a Fiat Token. Let's say part, because in the Tickex blockchain the pegged to fiat tokens start with T, for example TEUR, TUSD, TGBP, TKRW.
+The * Fiat Providers *, are authorized and regulated banking institutions. Their job is to act as a bridge between our blockchain and their banking circuit. They are the only ones authorized to issue (mint) part of a Fiat Token. Let's say part, because in the Tickex blockchain the pegged to fiat tokens start with T, for example THEUR, THUSD, THGBP, THKRW.
 A Fiat Provider can then make a mint of the following tokens. Let's take an example ...
 
 * EMoney * being an authorized institution, applies to be a Tichex Fiat Provider. To apply, Emoney will open a proposal on the Tichex blockchain, after which the proposal will have a voting period of 30 days (or more). Validators and any other users who have placed TKX in Stacking have the right to express an opinion and then vote on the proposal. The user's rating will have the weight relative to its value in the network (eg if there are 100 million TKX in Stacking and the user John put in stacking 1000, his vote will have a voting power of 0.0001%)
@@ -30,7 +30,7 @@ In order to avoid frauds or non-solid providers, the Fiat Provider, in addition 
 In summary, the Fiat Providers will be the TEUR Miners and other stable tokens and must comply with legislative and community requirements.
 
 ## The Validators
-They have a very important role, they are responsible for our blockchain. In order to be as decentralized as possible, in an initial phase Tichex will have 100 validators, then the number will be extended to 500. The Validators have the role of proposing the blocks with the transactions, they are chosen based on their voting power (ie the number of TKX in Stacking / the total of TKX in Stacking). The block creation time will be about 5 seconds, with each new block created [X] TKX, this reward will be sent every 12 blocks (about one minute) and will be divided to all the Validators, based on their voting power.
+They have a very important role, they are responsible for our blockchain. In order to be as decentralized as possible, in an initial phase Tichex will have 100 validators, then the number will be extended to 500. The Validators have the role of proposing the blocks with the transactions, they are chosen based on their voting power (ie the number of THX in Stacking / the total of TKX in Stacking). The block creation time will be about 5 seconds, with each new block created [X] THX, this reward will be sent every 12 blocks (about one minute) and will be divided to all the Validators, based on their voting power.
 The Validators will also gain from the transaction fee (also decided by proposal). Every 250,000 blocks (about 2 weeks) the number of TKX issued will be decreased, the blocks will finish issuing TKX as soon as the supply of 10,000,000,000 TKX (to be decided) will be reached. The fees, even if microscopic, will be applied for transfers, token creation, choice of ticker ...
 
 ## Companies
