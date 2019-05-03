@@ -29,9 +29,10 @@ echo "export GO111MODULE=on" >> ~/.profile
 source ~/.profile
 
 # get the code and move into repo
-go get $REPO
-cd $GOPATH/src/$REPO
+cd go-tichex
 
 # build & install master
 git checkout $BRANCH
-make install
+LEDGER_ENABLED=false make install
+
+source ~/.profile
