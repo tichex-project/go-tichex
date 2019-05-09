@@ -23,7 +23,7 @@ type versionInfo struct {
 }
 
 func (v versionInfo) String() string {
-	return fmt.Sprintf(`core: %s
+	return fmt.Sprintf(`go-tichex: %s
 git commit: %s
 go.sum hash: %s
 build tags: %s

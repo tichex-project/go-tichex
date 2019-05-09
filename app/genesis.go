@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-	//"time"
+	"time"
 
-	//"github.com/tichex-project/go-tichex/types"
+	"github.com/tichex-project/go-tichex/types"
 	"github.com/tichex-project/go-tichex/types/assets"
 	//"github.com/terra-project/core/x/budget"
 	//"github.com/terra-project/core/x/market"
@@ -93,12 +93,12 @@ type GenesisAccount struct {
 	AccountNumber uint64         `json:"account_number"`
 
 	// vesting account fields
-	/*OriginalVesting  sdk.Coins               `json:"original_vesting"`  // total vesting coins upon initialization
+	OriginalVesting  sdk.Coins               `json:"original_vesting"`  // total vesting coins upon initialization
 	DelegatedFree    sdk.Coins               `json:"delegated_free"`    // delegated vested coins at time of delegation
 	DelegatedVesting sdk.Coins               `json:"delegated_vesting"` // delegated vesting coins at time of delegation
 	StartTime        int64                   `json:"start_time"`        // vesting start time (UNIX Epoch time)
 	EndTime          int64                   `json:"end_time"`          // vesting end time (UNIX Epoch time)
-	VestingSchedules []types.VestingSchedule `json:"vesting_schedules"` // vesting end time (UNIX Epoch time)*/
+	VestingSchedules []types.VestingSchedule `json:"vesting_schedules"` // vesting end time (UNIX Epoch time)
 }
 
 // NewGenesisAccount returns new genesis account
@@ -120,7 +120,7 @@ func NewGenesisAccountI(acc auth.Account) GenesisAccount {
 		Sequence:      acc.GetSequence(),
 	}
 
-	/*vacc, ok := acc.(types.GradedVestingAccount)
+	vacc, ok := acc.(types.GradedVestingAccount)
 	if ok {
 		gacc.OriginalVesting = vacc.GetOriginalVesting()
 		gacc.DelegatedFree = vacc.GetDelegatedFree()
@@ -128,7 +128,7 @@ func NewGenesisAccountI(acc auth.Account) GenesisAccount {
 		gacc.StartTime = vacc.GetStartTime()
 		gacc.EndTime = vacc.GetEndTime()
 		gacc.VestingSchedules = vacc.GetVestingSchedules()
-	}*/
+	}
 
 	return gacc
 }
@@ -142,7 +142,7 @@ func (ga *GenesisAccount) ToAccount() auth.Account {
 		Sequence:      ga.Sequence,
 	}
 
-	/*if !ga.OriginalVesting.IsZero() {
+	if !ga.OriginalVesting.IsZero() {
 		baseVestingAcc := &auth.BaseVestingAccount{
 			BaseAccount:      bacc,
 			OriginalVesting:  ga.OriginalVesting,
@@ -166,7 +166,7 @@ func (ga *GenesisAccount) ToAccount() auth.Account {
 				VestingSchedules:   ga.VestingSchedules,
 			}
 		}
-	}*/
+	}
 
 	return bacc
 }
@@ -298,7 +298,7 @@ func validateGenesisStateAccounts(accs []GenesisAccount) error {
 		}
 
 		// validate any vesting fields
-		/*if !acc.OriginalVesting.IsZero() {
+		if !acc.OriginalVesting.IsZero() {
 
 			if acc.VestingSchedules != nil && len(acc.VestingSchedules) > 0 {
 				for _, vestingSchedule := range acc.VestingSchedules {
@@ -321,7 +321,7 @@ func validateGenesisStateAccounts(accs []GenesisAccount) error {
 				}
 			}
 
-		}*/
+		}
 
 		addrMap[addrStr] = true
 	}
