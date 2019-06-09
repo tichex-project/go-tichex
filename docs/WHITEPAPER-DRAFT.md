@@ -15,11 +15,11 @@ We are practically building the first pegged zone in EUR, that is the EUR/Crypto
 ## Blockchain
 The blockchain is based on the Bizantine Fault Tolerance consensus algorithm (consent 2/3 of the network), with DPoS Stacking algorithm.
 
-On the Tichex blockchain it will be possible to create 3 different types of tokens.
+On the Tichex blockchain it will be possible to create 2 different types of tokens.
 
 ## Types of Token
 * Token pegged to Fiat
-* Standard Liquidity Token pegged to THX (our native coin)
+* Standard Token (our native coin similar to erc-20)
 
 ## Main Actors
 To make the blockchain work, there must be 4 types of users.
@@ -53,7 +53,7 @@ Another example is another institution that joins the circuit and extends the se
 Liquidity tokens, having immediate liquidity, can be exchanged immediately without having to enter the order in Exchange.
 
 ## Genesis
-THEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
+TCX instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
 Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in THEUR determining the market value. THEUR/THX will be the first pair available.
 
 The technologies used are the same as those of Binance, BitSong, Minter, Cosmos, Iris Network. All advanced and interconnected blockchains thanks to Cosmos.
