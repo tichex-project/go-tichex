@@ -1,16 +1,25 @@
+### ABSTRACT
+
+A digital token backed by fiat currency provides individuals and organizations with arobust and decentralized method of exchanging value while using a familiar accounting unit. The innovation of blockchains is an auditable and cryptographically secured global ledger. Asset­ backed token issuers and other market participants can take advantage of blockchain technology, alongwith embedded consensus systems, to transact in familiar, less volatile currencies and assets. 
+
+In order to maintain accountability and to ensure stability in exchange price, we propose a method to maintain a one­ to­ one reserve ratio between a cryptocurrency token, called THEUR, and its associated real­ world asset, fiat currency. This method uses Cosmos SDK, Tendermint, Proof of Reserves, and other audit methods to prove that issued tokens are fully backed and reserved at all times.
+The funds are protected by the MFSA (Malta Financial Services Authority), in the European Central Bank.
+
 # Tichex Blockchain
 
 Tichex is a DPoS blockchain based on Tendermint and Cosmos SDK.
 
-Tichex was created to solve the problem of centralized stable coins. It also solves the problem of liquidity, be they Crypto/crypto or Crypto/fiat. On the Tichex blockchain it will be possible to create 3 different types of tokens.
+Tichex was created to solve the problem of centralized stable coins. It also solves the problem of liquidity, be they Crypto/crypto or Crypto/fiat.
+We are practically building the first pegged zone in EUR, that is the EUR/Crypto bridge of Cosmos and at the same time it is the technological evolution of an already existing European Bank, namely Em@ney.
 
 ## Blockchain
 The blockchain is based on the Bizantine Fault Tolerance consensus algorithm (consent 2/3 of the network), with DPoS Stacking algorithm.
 
+On the Tichex blockchain it will be possible to create 3 different types of tokens.
+
 ## Types of Token
 * Token pegged to Fiat
-* Liquidity Token pegged to THX (our native coin)
-* Standard Token (no pegged)
+* Standard Liquidity Token pegged to THX (our native coin)
 
 ## Main Actors
 To make the blockchain work, there must be 4 types of users.
@@ -43,10 +52,8 @@ Another example is another institution that joins the circuit and extends the se
 
 Liquidity tokens, having immediate liquidity, can be exchanged immediately without having to enter the order in Exchange.
 
-## ICO? No, thanks!
-Tichex has no intention to carry out any ICO. The engine will be activated from the first block.
-
-In the genesis block, *THX* will have an initial supply of 0 and will be issued as the first reward block. THEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
+## Genesis
+THEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
 Once the block 12 is born, the Validators already have the first rewards, and can therefore go to sell them in THEUR determining the market value. THEUR/THX will be the first pair available.
 
 The technologies used are the same as those of Binance, BitSong, Minter, Cosmos, Iris Network. All advanced and interconnected blockchains thanks to Cosmos.
