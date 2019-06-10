@@ -1,23 +1,15 @@
-#include Makefile.ledger
-#all: install
-#install: go.sum
-#		GO111MODULE=on go install -tags "$(build_tags)" ./cmd/tichexd
-#		GO111MODULE=on go install -tags "$(build_tags)" ./cmd/tichexcli
-#go.sum: go.mod
-#		@echo "--> Ensure dependencies have not been modified"
-#		GO111MODULE=on go mod verify
+#!/usr/bin/make -f
+
+PACKAGES_SIMTEST=$(shell go list ./... | grep '/simulation')
 VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
-GOTOOLS = \
-	github.com/golangci/golangci-lint/cmd/golangci-lint \
-	github.com/rakyll/statik
-GOBIN ?= $(GOPATH)/bin
-SHASUM := $(shell which sha256sum)
+SDK_PACK := $(shell go list -m github.com/cosmos/cosmos-sdk | sed  's/ /\@/g')
 
 export GO111MODULE = on
 
 # process build tags
+
 build_tags = netgo
 ifeq ($(LEDGER_ENABLED),true)
   ifeq ($(OS),Windows_NT)
@@ -28,27 +20,18 @@ ifeq ($(LEDGER_ENABLED),true)
       build_tags += ledger
     endif
   else
-    GCC = $(shell command -v gcc 2> /dev/null)
-    ifeq ($(GCC),)
-      $(error gcc not installed for ledger support, please install or set LEDGER_ENABLED=false)
+    UNAME_S = $(shell uname -s)
+    ifeq ($(UNAME_S),OpenBSD)
+      $(warning OpenBSD detected, disabling ledger support (https://github.com/cosmos/cosmos-sdk/issues/1988))
     else
-      build_tags += ledger
+      GCC = $(shell command -v gcc 2> /dev/null)
+      ifeq ($(GCC),)
+        $(error gcc not installed for ledger support, please install or set LEDGER_ENABLED=false)
+      else
+        build_tags += ledger
+      endif
     endif
   endif
-endif
-
-ifeq ($(WITH_CLEVELDB),yes)
-  build_tags += gcc
-endif
-
-# process linker flags
-
-ldflags = -X github.com/tichex-project/go-tichex/version.Version=$(VERSION) \
-					-X github.com/tichex-project/go-tichex/version.Commit=$(COMMIT) \
-					-X "github.com/tichex-project/go-tichex/version.BuildTags=$(build_tags)" \
-
-ifneq ($(SHASUM),)
-	ldflags += -X github.com/tichex-project/go-tichex/version.GoSumHash=$(shell sha256sum go.sum | cut -d ' ' -f1)
 endif
 
 ifeq ($(WITH_CLEVELDB),yes)
@@ -57,75 +40,161 @@ endif
 build_tags += $(BUILD_TAGS)
 build_tags := $(strip $(build_tags))
 
+whitespace :=
+whitespace += $(whitespace)
+comma := ,
+build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
+
+# process linker flags
+
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=tichex \
+		  -X github.com/cosmos/cosmos-sdk/version.ServerName=tichexd \
+		  -X github.com/cosmos/cosmos-sdk/version.ClientName=tichexcli \
+		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
+		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
+		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
+
+ifeq ($(WITH_CLEVELDB),yes)
+  ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=cleveldb
+endif
 ldflags += $(LDFLAGS)
 ldflags := $(strip $(ldflags))
 
 BUILD_FLAGS := -tags "$(build_tags)" -ldflags '$(ldflags)'
 
-########################################
-### All
+# The below include contains the tools target.
+include contrib/devtools/Makefile
 
-all: clean go-mod-cache install lint test
+all: install lint check
 
-########################################
-### CI
-
-ci: get_tools install lint test
-
-########################################
-### Build/Install
-
-build: 
+build: go.sum
 ifeq ($(OS),Windows_NT)
-	go build $(BUILD_FLAGS) -o build/tichexd.exe ./cmd/tichexd
-	go build $(BUILD_FLAGS) -o build/tichexcli.exe ./cmd/tichexcli
+	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexd.exe ./cmd/tichexd
+	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexcli.exe ./cmd/tichexcli
 else
-	go build $(BUILD_FLAGS) -o build/tichexd ./cmd/tichexd
-	go build $(BUILD_FLAGS) -o build/tichexcli ./cmd/tichexcli
+	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexd ./cmd/tichexd
+	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexcli ./cmd/tichexcli
 endif
 
-build-linux:
+build-linux: go.sum
 	LEDGER_ENABLED=false GOOS=linux GOARCH=amd64 $(MAKE) build
 
-install:
-	go install $(BUILD_FLAGS) ./cmd/tichexd
-	go install $(BUILD_FLAGS) ./cmd/tichexcli
+build-contract-tests-hooks:
+ifeq ($(OS),Windows_NT)
+	go build -mod=readonly $(BUILD_FLAGS) -o build/contract_tests.exe ./cmd/contract_tests
+else
+	go build -mod=readonly $(BUILD_FLAGS) -o build/contract_tests ./cmd/contract_tests
+endif
+
+install: go.sum check-ledger
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/tichexd
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/tichexcli
+
+install-debug: go.sum
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/tichexdebug
+
+
 
 ########################################
 ### Tools & dependencies
 
-get_tools:
-	go get github.com/rakyll/statik
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint
-
-update_tools:
-	@echo "--> Updating tools to correct version"
-	$(MAKE) --always-make get_tools
-
-go-mod-cache: go-sum
+go-mod-cache: go.sum
 	@echo "--> Download go modules to local cache"
 	@go mod download
 
-go-sum: get_tools
+go.sum: go.mod
 	@echo "--> Ensure dependencies have not been modified"
 	@go mod verify
 
-go-release:
-	@echo "--> Dry run for go-release"
-	BUILD_TAGS=$(shell echo \"$(build_tags)\") GOSUM=$(shell sha256sum go.sum | cut -d ' ' -f1) goreleaser release --skip-publish --rm-dist --debug
+draw-deps:
+	@# requires brew install graphviz or apt-get install graphviz
+	go get github.com/RobotsAndPencils/goviz
+	@goviz -i ./cmd/tichexd -d 2 | dot -Tpng -o dependency-graph.png
 
 clean:
-	rm -rf ./dist
-	rm -rf ./build
+	rm -rf snapcraft-local.yaml build/
 
 distclean: clean
 	rm -rf vendor/
 
-# To avoid unintended conflicts with file names, always add to .PHONY
-# unless there is a reason not to.
-# https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
-.PHONY: build install clean distclean \
-get_tools update_tools \
-build-linux \
-update_dev_tools \
-go-mod-cache go-sum
+########################################
+### Testing
+
+
+check: check-unit check-build
+check-all: check check-race check-cover
+
+check-unit:
+	@VERSION=$(VERSION) go test -mod=readonly -tags='ledger test_ledger_mock' ./...
+
+check-race:
+	@VERSION=$(VERSION) go test -mod=readonly -race -tags='ledger test_ledger_mock' ./...
+
+check-cover:
+	@go test -mod=readonly -timeout 30m -race -coverprofile=coverage.txt -covermode=atomic -tags='ledger test_ledger_mock' ./...
+
+check-build: build
+	@go test -mod=readonly -p 4 `go list ./cli_test/...` -tags=cli_test
+
+
+lint: ci-lint
+ci-lint:
+	golangci-lint run
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" | xargs gofmt -d -s
+	go mod verify
+
+format:
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs gofmt -w -s
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs misspell -w
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs goimports -w -local github.com/cosmos/cosmos-sdk
+
+benchmark:
+	@go test -mod=readonly -bench=. ./...
+
+
+########################################
+### Local validator nodes using docker and docker-compose
+
+build-docker-tichexdnode:
+	$(MAKE) -C networks/local
+
+# Run a 4-node testnet locally
+localnet-start: localnet-stop
+	@if ! [ -f build/node0/tichexd/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/tichexd:Z tendermint/tichexdnode testnet --v 4 -o . --starting-ip-address 192.168.10.2 ; fi
+	docker-compose up -d
+
+# Stop testnet
+localnet-stop:
+	docker-compose down
+
+setup-contract-tests-data:
+	echo 'Prepare data for the contract tests'
+	rm -rf /tmp/contract_tests ; \
+	mkdir /tmp/contract_tests ; \
+	cp "${GOPATH}/pkg/mod/${SDK_PACK}/client/lcd/swagger-ui/swagger.yaml" /tmp/contract_tests/swagger.yaml ; \
+	./build/tichexd init --home /tmp/contract_tests/.tichexd --chain-id lcd contract-tests ; \
+	tar -xzf lcd_test/testdata/state.tar.gz -C /tmp/contract_tests/
+
+start-tichex: setup-contract-tests-data
+	./build/tichexd --home /tmp/contract_tests/.tichexd start &
+	@sleep 2s
+
+setup-transactions: start-tichex
+	@bash ./lcd_test/testdata/setup.sh
+
+run-lcd-contract-tests:
+	@echo "Running Tichex LCD for contract tests"
+	./build/tichexcli rest-server --laddr tcp://0.0.0.0:8080 --home /tmp/contract_tests/.tichexcli --node http://localhost:26657 --chain-id lcd --trust-node true
+
+contract-tests: setup-transactions
+	@echo "Running Tichex LCD for contract tests"
+	dredd && pkill tichexd
+
+# include simulations
+include sims.mk
+
+.PHONY: all build-linux install install-debug \
+	go-mod-cache draw-deps clean build \
+	setup-transactions setup-contract-tests-data start-tichex run-lcd-contract-tests contract-tests \
+	check check-all check-build check-cover check-ledger check-unit check-race
+
