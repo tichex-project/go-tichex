@@ -13,10 +13,6 @@ import (
 
 	"github.com/tichex-project/go-tichex/types"
 	"github.com/tichex-project/go-tichex/types/assets"
-	//"github.com/terra-project/core/x/budget"
-	//"github.com/terra-project/core/x/market"
-	//"github.com/terra-project/core/x/oracle"
-	//"github.com/terra-project/core/x/treasury"
 
 	tmtypes "github.com/tendermint/tendermint/types"
 
@@ -26,6 +22,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	distr "github.com/cosmos/cosmos-sdk/x/distribution"
+	"github.com/cosmos/cosmos-sdk/x/mint"
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 )
@@ -36,13 +33,10 @@ type GenesisState struct {
 	AuthData     auth.GenesisState     `json:"auth"`
 	BankData     bank.GenesisState     `json:"bank"`
 	StakingData  staking.GenesisState  `json:"staking"`
+	MintData     mint.GenesisState     `json:"mint"`
 	DistrData    distr.GenesisState    `json:"distr"`
-	//TreasuryData treasury.GenesisState `json:"treasury"`
-	//BudgetData   budget.GenesisState   `json:"budget"`
-	//OracleData   oracle.GenesisState   `json:"oracle"`
 	CrisisData   crisis.GenesisState   `json:"crisis"`
 	SlashingData slashing.GenesisState `json:"slashing"`
-	//MarketData   market.GenesisState   `json:"market"`
 	GenTxs       []json.RawMessage     `json:"gentxs"`
 }
 
@@ -51,26 +45,20 @@ func NewGenesisState(accounts []GenesisAccount,
 	authData auth.GenesisState,
 	bankData bank.GenesisState,
 	stakingData staking.GenesisState,
+	mintData mint.GenesisState,
 	distrData distr.GenesisState,
-	//oracleData oracle.GenesisState,
-	//budgetData budget.GenesisState,
 	crisisData crisis.GenesisState,
-	//treasuryData treasury.GenesisState,
 	slashingData slashing.GenesisState) GenesisState {
-	//marketData market.GenesisState) GenesisState {
 
 	return GenesisState{
 		Accounts:     accounts,
 		AuthData:     authData,
 		BankData:     bankData,
 		StakingData:  stakingData,
+		MintData:     mintData,
 		DistrData:    distrData,
-		//OracleData:   oracleData,
 		CrisisData:   crisisData,
-		//TreasuryData: treasuryData,
-		//BudgetData:   budgetData,
 		SlashingData: slashingData,
-		//MarketData:   marketData,
 	}
 }
 
@@ -226,22 +214,25 @@ func NewDefaultGenesisState() GenesisState {
 	distrGenState := distr.DefaultGenesisState()
 	distrGenState.CommunityTax = sdk.ZeroDec()
 
+	mintGenState := mint.DefaultGenesisState()
+	mintGenState.Params.MintDenom = assets.MicroTichexDenom
+
 	stakingGenState := staking.DefaultGenesisState()
 	stakingGenState.Params.BondDenom = assets.MicroTichexDenom
 	stakingGenState.Params.MaxValidators = 16 // Max 16 validator
+
+	crisisGenState := crisis.DefaultGenesisState()
+	crisisGenState.ConstantFee.Denom = assets.MicroTichexDenom
 
 	return GenesisState{
 		Accounts:     nil,
 		AuthData:     auth.DefaultGenesisState(),
 		StakingData:  stakingGenState,
 		DistrData:    distrGenState,
+		MintData:     mintGenState,
 		BankData:     bank.DefaultGenesisState(),
-		//BudgetData:   budget.DefaultGenesisState(),
-		//OracleData:   oracle.DefaultGenesisState(),
-		//TreasuryData: treasury.DefaultGenesisState(),
-		CrisisData:   crisis.DefaultGenesisState(),
+		CrisisData:   crisisGenState,
 		SlashingData: slashing.DefaultGenesisState(),
-		//MarketData:   market.DefaultGenesisState(),
 		GenTxs:       nil,
 	}
 }
@@ -269,19 +260,17 @@ func TichexValidateGenesisState(genesisState GenesisState) error {
 	if err := staking.ValidateGenesis(genesisState.StakingData); err != nil {
 		return err
 	}
+	if err := mint.ValidateGenesis(genesisState.MintData); err != nil {
+		return err
+	}
 	if err := distr.ValidateGenesis(genesisState.DistrData); err != nil {
 		return err
 	}
-	if err := slashing.ValidateGenesis(genesisState.SlashingData); err != nil {
+	if err := crisis.ValidateGenesis(genesisState.CrisisData); err != nil {
 		return err
 	}
-	/*if err := crisis.ValidateGenesis(genesisState.CrisisData); err != nil {
-		return err
-	}*/
 
-	return crisis.ValidateGenesis(genesisState.CrisisData)
-
-	//return market.ValidateGenesis(genesisState.MarketData)
+	return slashing.ValidateGenesis(genesisState.SlashingData)
 }
 
 // validateGenesisStateAccounts performs validation of genesis accounts. It
@@ -444,8 +433,7 @@ func CollectStdTxs(cdc *codec.Codec, moniker string, genTxsDir string, genDoc tm
 func NewDefaultGenesisAccount(addr sdk.AccAddress) GenesisAccount {
 	accAuth := auth.NewBaseAccountWithAddress(addr)
 	coins := sdk.Coins{
-		//sdk.NewCoin(assets.MicroSDRDenom, sdk.NewInt(1000).MulRaw(assets.MicroUnit)),
-		sdk.NewCoin(assets.MicroTichexDenom, sdk.NewInt(1000).MulRaw(assets.MicroUnit)),
+		sdk.NewCoin(assets.MicroTichexDenom, sdk.NewInt(116280760).MulRaw(assets.MicroUnit)),
 	}
 
 	coins.Sort()

@@ -62,7 +62,7 @@ func main() {
 	server.AddCommands(ctx, cdc, rootCmd, newApp, exportAppStateAndTMValidators)
 
 	// prepare and add flags
-	executor := cli.PrepareBaseCmd(rootCmd, "TH", app.DefaultNodeHome)
+	executor := cli.PrepareBaseCmd(rootCmd, "BS", app.DefaultNodeHome)
 	rootCmd.PersistentFlags().BoolVar(&assertInvariantsBlockly, flagAssertInvariantsBlockly,
 		false, "Assert registered invariants on a blockly basis")
 	err := executor.Execute()

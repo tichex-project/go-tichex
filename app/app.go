@@ -20,6 +20,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
+	"github.com/cosmos/cosmos-sdk/x/mint"
 	"github.com/cosmos/cosmos-sdk/x/params"
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
@@ -52,16 +53,12 @@ type TichexBlockchain struct {
 	keyStaking       *sdk.KVStoreKey
 	tkeyStaking      *sdk.TransientStoreKey
 	keySlashing      *sdk.KVStoreKey
+	keyMint          *sdk.KVStoreKey
 	keyDistr         *sdk.KVStoreKey
 	tkeyDistr        *sdk.TransientStoreKey
 	keyFeeCollection *sdk.KVStoreKey
 	keyParams        *sdk.KVStoreKey
 	tkeyParams       *sdk.TransientStoreKey
-	//keyOracle        *sdk.KVStoreKey
-	//keyTreasury      *sdk.KVStoreKey
-	//keyMarket        *sdk.KVStoreKey
-	//keyBudget        *sdk.KVStoreKey
-	//keyMint          *sdk.KVStoreKey
 
 	// Manage getting and setting accounts
 	accountKeeper       auth.AccountKeeper
@@ -69,14 +66,10 @@ type TichexBlockchain struct {
 	bankKeeper          bank.Keeper
 	stakingKeeper       staking.Keeper
 	slashingKeeper      slashing.Keeper
+	mintKeeper          mint.Keeper
 	distrKeeper         distr.Keeper
 	crisisKeeper        crisis.Keeper
 	paramsKeeper        params.Keeper
-	//oracleKeeper        oracle.Keeper
-	//treasuryKeeper      treasury.Keeper
-	//marketKeeper        market.Keeper
-	//budgetKeeper        budget.Keeper
-	//mintKeeper          mint.Keeper
 }
 
 // NewTichexBlockchain returns a reference to an initialized TichexBlockchain.
@@ -93,22 +86,18 @@ func NewTichexBlockchain(logger log.Logger, db dbm.DB, traceStore io.Writer, loa
 	var app = &TichexBlockchain{
 		BaseApp:                 bApp,
 		cdc:                     cdc,
-		//assertInvariantsBlockly: assertInvariantsBlockly,
+		assertInvariantsBlockly: assertInvariantsBlockly,
 		keyMain:                 sdk.NewKVStoreKey(bam.MainStoreKey),
 		keyAccount:              sdk.NewKVStoreKey(auth.StoreKey),
 		keyStaking:              sdk.NewKVStoreKey(staking.StoreKey),
 		tkeyStaking:             sdk.NewTransientStoreKey(staking.TStoreKey),
+		keyMint:          		 sdk.NewKVStoreKey(mint.StoreKey),
 		keyDistr:                sdk.NewKVStoreKey(distr.StoreKey),
 		tkeyDistr:               sdk.NewTransientStoreKey(distr.TStoreKey),
 		keySlashing:             sdk.NewKVStoreKey(slashing.StoreKey),
 		keyFeeCollection:        sdk.NewKVStoreKey(auth.FeeStoreKey),
 		keyParams:               sdk.NewKVStoreKey(params.StoreKey),
 		tkeyParams:              sdk.NewTransientStoreKey(params.TStoreKey),
-		//keyOracle:               sdk.NewKVStoreKey(oracle.StoreKey),
-		//keyTreasury:             sdk.NewKVStoreKey(treasury.StoreKey),
-		//keyMarket:               sdk.NewKVStoreKey(market.StoreKey),
-		//keyBudget:               sdk.NewKVStoreKey(budget.StoreKey),
-		//keyMint:                 sdk.NewKVStoreKey(mint.StoreKey),
 	}
 
 	// The ParamsKeeper handles parameter storage for the application
@@ -144,6 +133,11 @@ func NewTichexBlockchain(logger log.Logger, db dbm.DB, traceStore io.Writer, loa
 		staking.DefaultCodespace,
 	)
 
+	app.mintKeeper = mint.NewKeeper(app.cdc, app.keyMint,
+		app.paramsKeeper.Subspace(mint.DefaultParamspace),
+		&stakingKeeper, app.feeCollectionKeeper,
+	)
+
 	app.distrKeeper = distr.NewKeeper(
 		app.cdc,
 		app.keyDistr,
@@ -166,40 +160,6 @@ func NewTichexBlockchain(logger log.Logger, db dbm.DB, traceStore io.Writer, loa
 		app.feeCollectionKeeper,
 	)
 
-	/*app.oracleKeeper = oracle.NewKeeper(
-		app.cdc,
-		app.keyOracle,
-		stakingKeeper.GetValidatorSet(),
-		app.paramsKeeper.Subspace(oracle.DefaultParamspace),
-	)
-	app.mintKeeper = mint.NewKeeper(
-		app.cdc,
-		app.keyMint,
-		stakingKeeper,
-		app.bankKeeper,
-		app.accountKeeper,
-	)
-	app.marketKeeper = market.NewKeeper(
-		app.oracleKeeper,
-		app.mintKeeper,
-		app.paramsKeeper.Subspace(market.DefaultParamspace),
-	)
-	app.treasuryKeeper = treasury.NewKeeper(
-		app.cdc,
-		app.keyTreasury,
-		stakingKeeper.GetValidatorSet(),
-		app.mintKeeper,
-		app.marketKeeper,
-		app.paramsKeeper.Subspace(treasury.DefaultParamspace),
-	)
-	app.budgetKeeper = budget.NewKeeper(
-		app.cdc,
-		app.keyBudget,
-		app.mintKeeper,
-		stakingKeeper.GetValidatorSet(),
-		app.paramsKeeper.Subspace(budget.DefaultParamspace),
-	)*/
-
 	// register the staking hooks
 	// NOTE: The stakingKeeper above is passed by reference, so that it can be
 	// modified like below:
@@ -218,23 +178,17 @@ func NewTichexBlockchain(logger log.Logger, db dbm.DB, traceStore io.Writer, loa
 		AddRoute(staking.RouterKey, staking.NewHandler(app.stakingKeeper)).
 		AddRoute(distr.RouterKey, distr.NewHandler(app.distrKeeper)).
 		AddRoute(slashing.RouterKey, slashing.NewHandler(app.slashingKeeper))
-		//AddRoute(oracle.RouterKey, oracle.NewHandler(app.oracleKeeper)).
-		//AddRoute(budget.RouterKey, budget.NewHandler(app.budgetKeeper)).
-		//AddRoute(market.RouterKey, market.NewHandler(app.marketKeeper)).
-		//AddRoute(crisis.RouterKey, crisis.NewHandler(app.crisisKeeper))
 
 	app.QueryRouter().
 		AddRoute(auth.QuerierRoute, auth.NewQuerier(app.accountKeeper)).
 		AddRoute(distr.QuerierRoute, distr.NewQuerier(app.distrKeeper)).
 		AddRoute(slashing.QuerierRoute, slashing.NewQuerier(app.slashingKeeper, app.cdc)).
-		AddRoute(staking.QuerierRoute, staking.NewQuerier(app.stakingKeeper, app.cdc))
-		//AddRoute(treasury.QuerierRoute, treasury.NewQuerier(app.treasuryKeeper)).
-		//AddRoute(oracle.QuerierRoute, oracle.NewQuerier(app.oracleKeeper)).
-		//AddRoute(budget.QuerierRoute, budget.NewQuerier(app.budgetKeeper))
+		AddRoute(staking.QuerierRoute, staking.NewQuerier(app.stakingKeeper, app.cdc)).
+		AddRoute(mint.QuerierRoute, mint.NewQuerier(app.mintKeeper))
 
 	// initialize BaseApp
 	app.MountStores(
-		app.keyMain, app.keyAccount, app.keyStaking, app.keyDistr,
+		app.keyMain, app.keyAccount, app.keyStaking, app.keyMint, app.keyDistr,
 		app.keySlashing, app.keyFeeCollection, app.keyParams,
 		app.tkeyParams, app.tkeyStaking, app.tkeyDistr,
 	)
@@ -264,10 +218,6 @@ func MakeCodec() *codec.Codec {
 	slashing.RegisterCodec(cdc)
 	auth.RegisterCodec(cdc)
 	types.RegisterCodec(cdc)
-	//oracle.RegisterCodec(cdc)
-	//budget.RegisterCodec(cdc)
-	//market.RegisterCodec(cdc)
-	//treasury.RegisterCodec(cdc)
 	crisis.RegisterCodec(cdc)
 	sdk.RegisterCodec(cdc)
 	codec.RegisterCrypto(cdc)
@@ -276,6 +226,9 @@ func MakeCodec() *codec.Codec {
 
 // BeginBlocker application updates every initial block
 func (app *TichexBlockchain) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+
+	// mint new tokens for the previous block
+	mint.BeginBlocker(ctx, app.mintKeeper)
 
 	// distribute rewards for the previous block
 	distr.BeginBlocker(ctx, req, app.distrKeeper)
@@ -295,25 +248,6 @@ func (app *TichexBlockchain) BeginBlocker(ctx sdk.Context, req abci.RequestBegin
 // EndBlocker application updates every end block
 func (app *TichexBlockchain) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
 	validatorUpdates, tags := staking.EndBlocker(ctx, app.stakingKeeper)
-
-	/*oracleClaims, oracleTags := oracle.EndBlocker(ctx, app.oracleKeeper)
-	tags = append(tags, oracleTags...)
-	for _, oracleClaim := range oracleClaims {
-		app.treasuryKeeper.AddClaim(ctx, oracleClaim)
-	}
-
-	budgetClaims, budgetTags := budget.EndBlocker(ctx, app.budgetKeeper)
-	tags = append(tags, budgetTags...)
-	for _, budgetClaim := range budgetClaims {
-		app.treasuryKeeper.AddClaim(ctx, budgetClaim)
-	}
-
-	treasuryTags := treasury.EndBlocker(ctx, app.treasuryKeeper)
-	tags = append(tags, treasuryTags...)
-
-	if app.assertInvariantsBlockly {
-		app.assertRuntimeInvariants()
-	}*/
 
 	return abci.ResponseEndBlock{
 		ValidatorUpdates: validatorUpdates,
@@ -346,10 +280,7 @@ func (app *TichexBlockchain) initFromGenesisState(ctx sdk.Context, genesisState 
 	bank.InitGenesis(ctx, app.bankKeeper, genesisState.BankData)
 	slashing.InitGenesis(ctx, app.slashingKeeper, genesisState.SlashingData, genesisState.StakingData.Validators.ToSDKValidators())
 	crisis.InitGenesis(ctx, app.crisisKeeper, genesisState.CrisisData)
-	//treasury.InitGenesis(ctx, app.treasuryKeeper, genesisState.TreasuryData)
-	//market.InitGenesis(ctx, app.marketKeeper, genesisState.MarketData)
-	//budget.InitGenesis(ctx, app.budgetKeeper, genesisState.BudgetData)
-	//oracle.InitGenesis(ctx, app.oracleKeeper, genesisState.OracleData)
+	mint.InitGenesis(ctx, app.mintKeeper, genesisState.MintData)
 
 	// validate genesis state
 	if err := TichexValidateGenesisState(genesisState); err != nil {
@@ -374,6 +305,7 @@ func (app *TichexBlockchain) initFromGenesisState(ctx sdk.Context, genesisState 
 		validators = app.stakingKeeper.ApplyAndReturnValidatorSetUpdates(ctx)
 	}
 	return validators
+
 }
 
 // custom logic for Tichex Blockchain initialization
