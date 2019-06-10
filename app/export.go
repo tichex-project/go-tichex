@@ -4,17 +4,13 @@ import (
 	"encoding/json"
 	"log"
 
-	/*"github.com/terra-project/core/x/budget"
-	"github.com/terra-project/core/x/market"
-	"github.com/terra-project/core/x/oracle"
-	"github.com/terra-project/core/x/treasury"*/
-
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	distr "github.com/cosmos/cosmos-sdk/x/distribution"
+	"github.com/cosmos/cosmos-sdk/x/mint"
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	abci "github.com/tendermint/tendermint/abci/types"
@@ -46,13 +42,10 @@ func (app *TichexBlockchain) ExportAppStateAndValidators(forZeroHeight bool, jai
 		auth.ExportGenesis(ctx, app.accountKeeper, app.feeCollectionKeeper),
 		bank.ExportGenesis(ctx, app.bankKeeper),
 		staking.ExportGenesis(ctx, app.stakingKeeper),
+		mint.ExportGenesis(ctx, app.mintKeeper),
 		distr.ExportGenesis(ctx, app.distrKeeper),
-		//oracle.ExportGenesis(ctx, app.oracleKeeper),
-		//budget.ExportGenesis(ctx, app.budgetKeeper),
 		crisis.ExportGenesis(ctx, app.crisisKeeper),
-		//treasury.ExportGenesis(ctx, app.treasuryKeeper),
 		slashing.ExportGenesis(ctx, app.slashingKeeper),
-		//market.ExportGenesis(ctx, app.marketKeeper),
 	)
 	appState, err = codec.MarshalJSONIndent(app.cdc, genState)
 	if err != nil {

@@ -19,10 +19,6 @@ import (
 
 	crisisclient "github.com/cosmos/cosmos-sdk/x/crisis/client"
 	"github.com/tichex-project/go-tichex/version"
-	/*budgetClient "github.com/terra-project/core/x/budget/client"
-	marketClient "github.com/terra-project/core/x/market/client"
-	oracleClient "github.com/terra-project/core/x/oracle/client"
-	treasuryClient "github.com/terra-project/core/x/treasury/client"*/
 
 	dist "github.com/cosmos/cosmos-sdk/x/distribution/client/rest"
 	staking "github.com/cosmos/cosmos-sdk/x/staking/client/rest"
@@ -34,16 +30,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	at "github.com/cosmos/cosmos-sdk/x/auth"
-
-	/*budget "github.com/terra-project/core/x/budget/client/rest"
-	market "github.com/terra-project/core/x/market/client/rest"
-	oracle "github.com/terra-project/core/x/oracle/client/rest"
-	treasury "github.com/terra-project/core/x/treasury/client/rest"
-
-	bud "github.com/terra-project/core/x/budget"
-	mkt "github.com/terra-project/core/x/market"
-	ora "github.com/terra-project/core/x/oracle"
-	tre "github.com/terra-project/core/x/treasury"*/
 
 	auth "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
 	bank "github.com/cosmos/cosmos-sdk/x/bank/client/rest"
@@ -86,10 +72,6 @@ func main() {
 		distClient.NewModuleClient(distcmd.StoreKey, cdc),
 		stakingClient.NewModuleClient(st.StoreKey, cdc),
 		slashingClient.NewModuleClient(sl.StoreKey, cdc),
-		/*oracleClient.NewModuleClient(ora.StoreKey, cdc),
-		treasuryClient.NewModuleClient(tre.StoreKey, cdc),
-		budgetClient.NewModuleClient(bud.StoreKey, cdc),
-		marketClient.NewModuleClient(mkt.StoreKey, cdc),*/
 		crisisclient.NewModuleClient(sl.StoreKey, cdc),
 	}
 
@@ -200,10 +182,6 @@ func registerRoutes(rs *lcd.RestServer) {
 	staking.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc, rs.KeyBase)
 	slashing.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc, rs.KeyBase)
 	gov.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc)
-	/*oracle.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc)
-	treasury.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc)
-	market.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc)
-	budget.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc)*/
 }
 
 func registerSwaggerUI(rs *lcd.RestServer) {
