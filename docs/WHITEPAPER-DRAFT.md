@@ -44,6 +44,7 @@ Another example is another institution that joins the circuit and extends the se
 Liquidity tokens, having immediate liquidity, can be exchanged immediately without having to enter the order in Exchange.
 
 ## ICO? No, thanks!
+
 Tichex has no intention to carry out any ICO. The engine will be activated from the first block.
 
 In the genesis block, *THX* will have an initial supply of 0 and will be issued as the first reward block. THEUR instead, will be issued by Emoney and will be purchased by the Validator for the initial staking. (We could also propose an initial auction for the first 16, in this case 100 Validator will be reached later in the time).
@@ -52,3 +53,81 @@ Once the block 12 is born, the Validators already have the first rewards, and ca
 The technologies used are the same as those of Binance, BitSong, Minter, Cosmos, Iris Network. All advanced and interconnected blockchains thanks to Cosmos.
 
 The project would immediately attract a large number of investors (as well as Validator, ultimately fighting for all that is Cosmos) and throwing down the first real decentralized blockchain with stable currencies, Fiat Providers and liquid tokens.
+
+## Disclaimer
+
+This White Paper is intended for distribution solely on information purposes. Tichex (also referred to as ‘TCX’) does not guarantee the accuracy of conclusions and statements reached in this whitepaper. Moreover, this whitepaper is provided "as is" with no representations and warranties, express or implied, whatsoever, including, but not limited to:
+* warranties of merchantability, fitness for a particular purpose, title or non-infringement;
+* that the content of this whitepaper is free from error or suitable for any purpose;
+* that such contents will not infringe third-party rights.
+
+All warranties are expressly disclaimed.
+
+The introduction and description of the basic condition of the project in this document is an invitation to the general public. It is not and cannot be regarded as an investment or declaration of commitment to any specific or unspecified subject. It is neither nor can it be considered as a specific team’s project. It’s not a commitment nor a guarantee. The Tichex team reserves all rights to modify, delete, add, abrogate, and interpret related behaviors of this document.
+
+Those who have the intention to participate, invest, and cooperate in this project must clearly understand the full risks of this project. Participants shall enter into a written cooperation agreement for participation in this project. The cooperation agreement shall clearly and completely indicate the cooperation, participation or investment. Participants should indicate in written or verbal form that they have fully understood and accepted all the risks that the project has generated or may have, and take corresponding responsibility.
+
+This document is copyrighted by Tichex Ltd (Company Number: C85616 - Regent House, 4/44, Triq Bisazza, Tas-Sliema - SLM 1640, Malta). No part of this document may be reproduced, abstracted, backed up, modified, translated into another language, or used in whole or in part for any commercial purpose, in any form or by any means, without the prior written consent of Tichex Ltd.
+
+# Em@ney plc
+
+Em@ney plc, Licensed in Malta, is authorised by the MFSA in 2013.
+
+The Financial Institution with an extended portfolio owns all the opportunities and permissions in accordance with the European Community.
+
+Em@ney relies on a proven decade of experience in management in the world of electronic money, issuance of online current accounts and issuance of rechargeable credit card.
+
+The objective of the Institute is the creation of an extended network to all the European Community countries through partnerships which are already well established in the commercial sector and micropayments.
+
+---
+
+## Mission
+Em@ney issues and acquires electronic money, builds innovative tools for payments and creates networks between the biggest european players, the networks and the points of sale.
+
+Em@ney's mission is to offer to its clients, through innovative platforms the simplest way to manage their incoming and outgoing payments, always in the frame of ever-changing legal landscape. Em@ney also creates sales networks for the market of virtual goods and services.
+
+Em@ney is also devoted to compliance and AML with its new brach EMFinancial Investigation, dedicated to risk management and compliance check with international partners.
+
+---
+
+## Products
+
+* Personal Account
+* Business Account
+* Internet Banking
+* Payment Gateway
+* Em@ney Cards
+* Em@ney Mastercard®
+* Electronic Bank Cheque
+* UpBanking
+* Sales Point
+* Massive Payments
+* Compliance Check for AML
+* EM Financial Investigation
+* APIs for Developers
+
+---
+
+## Main differences to other similar institutes
+
+* Full Iban solution for each wallet onboarded
+* Sole platform on the market with specific features dedicated to manage an Emoney and its payment service including the entire Card issuing process.
+* The software is solely owned by the internal developer.
+* All modules communicate with the core through APIs.
+* Turnkey Solutions.
+* Integrated Legal Messaging with message ID.
+* Fully modular structure with possibility to cancel or add products and applications.
+* Ability to create  white label and Emoney virtual companies.
+* Fully  customizable for products and services.
+* Complete with everything needed to manage simultaneously accounts an all kind of cards like close loop, prepaid or debit cards.
+* Excellent integration assisted by various online manuals for each single product.
+* Full customization of receipts and advertisement by and for each transaction.
+
+---
+### Network
+
+* All server are PCI level 2 Compliance
+* Mixed technology for better performance
+* System protected from DDOS and DNS Attack
+* Redundant servers in different server farms
+* Private Data cloud for all sensible data documents
