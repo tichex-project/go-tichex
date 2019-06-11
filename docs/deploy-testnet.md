@@ -1,12 +1,12 @@
-# Deploy Your Own Gaia Testnet
+# Deploy Your Own Tichex Testnet
 
-This document describes 3 ways to setup a network of `gaiad` nodes, each serving a different usecase:
+This document describes 3 ways to setup a network of `tichexd` nodes, each serving a different usecase:
 
 1. Single-node, local, manual testnet
 2. Multi-node, local, automated testnet
 3. Multi-node, remote, automated testnet
 
-Supporting code can be found in the [networks directory](https://github.com/cosmos/gaia/tree/master/networks) and additionally the `local` or `remote` sub-directories.
+Supporting code can be found in the [networks directory](https://github.com/tichex-project/go-tichex/tree/master/networks) and additionally the `local` or `remote` sub-directories.
 
 > NOTE: The `remote` network bootstrapping may be out of sync with the latest releases and is not to be relied upon.
 
@@ -14,10 +14,10 @@ Supporting code can be found in the [networks directory](https://github.com/cosm
 
 In case you need to use or deploy gaia as a container you could skip the `build` steps and use the official images, $TAG stands for the version you are interested in:
 
-- `docker run -it -v ~/.gaiad:/root/.gaiad -v ~/.gaiacli:/root/.gaiacli tendermint:$TAG gaiad init`
-- `docker run -it -p 26657:26657 -p 26656:26656 -v ~/.gaiad:/root/.gaiad -v ~/.gaiacli:/root/.gaiacli tendermint:$TAG gaiad start`
+- `docker run -it -v ~/.tichexd:/root/.tichexd -v ~/.tichexcli:/root/.tichexcli tendermint:$TAG tichexd init`
+- `docker run -it -p 26657:26657 -p 26656:26656 -v ~/.tichexd:/root/.tichexd -v ~/.tichexcli:/root/.tichexcli tendermint:$TAG tichexd start`
 - ...
-- `docker run -it -v ~/.gaiad:/root/.gaiad -v ~/.gaiacli:/root/.gaiacli tendermint:$TAG gaiacli version`
+- `docker run -it -v ~/.tichexd:/root/.tichexd -v ~/.tichexcli:/root/.tichexcli tendermint:$TAG tichexcli version`
 
 The same images can be used to build your own docker-compose stack.
 
@@ -27,7 +27,7 @@ This guide helps you create a single validator node that runs a network locally 
 
 ### Requirements
 
-- [Install gaia](./installation.md)
+- [Install tichex](./installation.md)
 - [Install `jq`](https://stedolan.github.io/jq/download/) (optional)
 
 ### Create Genesis File and Start the Network
@@ -37,31 +37,35 @@ This guide helps you create a single validator node that runs a network locally 
 cd $HOME
 
 # Initialize the genesis.json file that will help you to bootstrap the network
-gaiad init --chain-id=testing testing
+tichexd init --chain-id=testing testing
+
+# Change default bond token genesis.json
+sed -i 's/stake/utcx/g' ~/.tichexd/config/genesis.json
 
 # Create a key to hold your validator account
-gaiacli keys add validator
+tichexcli keys add validator
 
 # Add that key into the genesis.app_state.accounts array in the genesis file
 # NOTE: this command lets you set the number of coins. Make sure this account has some coins
 # with the genesis.app_state.staking.params.bond_denom denom, the default is staking
-gaiad add-genesis-account $(gaiacli keys show validator -a) 1000000000stake,1000000000validatortoken
+# tichexd add-genesis-account $(tichexcli keys show validator -a) 1000000000utcx
+tichexd add-genesis-account validator 1000000000utcx
 
 # Generate the transaction that creates your validator
-gaiad gentx --name validator
+tichexd gentx --name validator --amount=1000000000utcx
 
 # Add the generated bonding transaction to the genesis file
-gaiad collect-gentxs
+tichexd collect-gentxs
 
-# Now its safe to start `gaiad`
-gaiad start
+# Now its safe to start `tichexd`
+tichexd start
 ```
 
-This setup puts all the data for `gaiad` in `~/.gaiad`. You can examine the genesis file you created at `~/.gaiad/config/genesis.json`. With this configuration `gaiacli` is also ready to use and has an account with tokens (both staking and custom).
+This setup puts all the data for `tichexd` in `~/.tichexd`. You can examine the genesis file you created at `~/.tichexd/config/genesis.json`. With this configuration `tichexcli` is also ready to use and has an account with tokens (both staking and custom).
 
 ## Multi-node, Local, Automated Testnet
 
-From the [networks/local directory](https://github.com/cosmos/gaia/tree/master/networks/local):
+From the [networks/local directory](https://github.com/tichex-project/go-tichex/tree/master/networks/local):
 
 ### Requirements
 

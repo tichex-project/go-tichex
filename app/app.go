@@ -32,8 +32,8 @@ import (
 const appName = "TichexBlockchain"
 
 var (
-	// default home directories for tichecli
-	DefaultCLIHome = os.ExpandEnv("$HOME/.tichecli")
+	// default home directories for tichexcli
+	DefaultCLIHome = os.ExpandEnv("$HOME/.tichexcli")
 
 	// default home directories for tichexd
 	DefaultNodeHome = os.ExpandEnv("$HOME/.tichexd")

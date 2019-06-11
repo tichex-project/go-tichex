@@ -72,7 +72,7 @@ ifeq ($(OS),Windows_NT)
 	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexd.exe ./cmd/tichexd
 	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexcli.exe ./cmd/tichexcli
 else
-	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexd ./cmd/tichexd
+	go build ì $(BUILD_FLAGS) -o build/tichexd ./cmd/tichexd
 	go build -mod=readonly $(BUILD_FLAGS) -o build/tichexcli ./cmd/tichexcli
 endif
 
