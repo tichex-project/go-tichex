@@ -25,6 +25,7 @@ import (
 
 	"github.com/tichex-project/go-tichex/app"
 	"github.com/tichex-project/go-tichex/types/util"
+	faucetcmd "github.com/tichex-project/go-tichex/x/faucet/client/cli"
 )
 
 func main() {
@@ -71,6 +72,16 @@ func main() {
 		client.NewCompletionCmd(rootCmd, true),
 	)
 
+	faucetCmd := &cobra.Command{
+		Use:   "faucet",
+		Short: "faucet subcommands",
+	}
+	faucetCmd.AddCommand(
+		client.PostCommands(
+			faucetcmd.GetCmdFaucetSend(cdc),
+		)...)
+	rootCmd.AddCommand(faucetCmd)
+
 	// Add flags and prefix all env exposed with GA
 	executor := cli.PrepareMainCmd(rootCmd, "GA", app.DefaultCLIHome)
 
@@ -80,6 +91,7 @@ func main() {
 		os.Exit(1)
 	}
 }
+
 
 func queryCmd(cdc *amino.Codec) *cobra.Command {
 	queryCmd := &cobra.Command{
