@@ -26,6 +26,7 @@ import (
 	"github.com/tichex-project/go-tichex/app"
 	"github.com/tichex-project/go-tichex/types/util"
 	faucetcmd "github.com/tichex-project/go-tichex/x/faucet/client/cli"
+	"github.com/tichex-project/go-tichex/x/issue"
 )
 
 func main() {
@@ -71,6 +72,18 @@ func main() {
 		version.Cmd,
 		client.NewCompletionCmd(rootCmd, true),
 	)
+
+	bankCmd := &cobra.Command{
+		Use:   "bank",
+		Short: "Bank subcommands",
+	}
+
+	bankCmd.AddCommand(
+		issue.QueryCmd(cdc),
+	)
+
+	moduleClient := issue.NewModuleClient(cdc)
+	rootCmd.AddCommand(moduleClient.GetCmd())
 
 	faucetCmd := &cobra.Command{
 		Use:   "faucet",
