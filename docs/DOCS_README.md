@@ -4,9 +4,9 @@ If you want to open a PR on Gaia to update the documentation, please follow the 
 
 ## Docs Build Workflow
 
-The documentation for Gaia is hosted at:
+The documentation for Tichex is hosted at:
 
-- https://hub.cosmos.network/docs/ 
+- repo link for documentation 
 
 built from the files in this (`/docs`) directory for [master](https://github.com/tichex-project/go-tichex/tree/master/docs)
 
@@ -94,9 +94,9 @@ then navigate to localhost:8080 in your browser.
 
 First, run `make tools` from the root of repo, to install the swagger-ui tool.
 
-Then, edit the `swagger.yaml` manually; it is found [here](https://github.com/tichex-project/go-tichex/blob/master/cmd/gaiacli/swagger-ui/swagger.yaml)
+Then, edit the `swagger.yaml` manually; it is found [here](https://github.com/tichex-project/go-tichex/blob/master/cmd/tichexcli/swagger-ui/swagger.yaml)
 
-Finally, run `make update-gaia-lite-docs` from the root of the repo.
+Finally, run `make update-tichex-lite-docs` from the root of the repo.
 
 ## Search
 
@@ -114,10 +114,10 @@ much as possible with its [counterpart in the Tendermint Core repo](https://gith
     make tools
     ```
 2. Edit API docs
-    1. Directly Edit API docs manually: `cmd/gaiacli/swagger-ui/swagger.yaml`.
+    1. Directly Edit API docs manually: `cmd/tichexcli/swagger-ui/swagger.yaml`.
     2. Edit API docs within the [Swagger Editor](https://editor.swagger.io/). Please refer to this [document](https://swagger.io/docs/specification/2-0/basic-structure/) for the correct structure in `.yaml`.
-3. Download `swagger.yaml` and replace the old `swagger.yaml` under fold `cmd/gaiacli/swagger-ui`.
-4. Compile gaiacli
+3. Download `swagger.yaml` and replace the old `swagger.yaml` under fold `cmd/tichexcli/swagger-ui`.
+4. Compile tichexcli
     ```bash
     make install
     ```
